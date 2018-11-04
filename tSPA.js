@@ -6,7 +6,7 @@ function getPath(url) {
     return pth.substr(pth.indexOf("/"));
 }
 
-var html = document.getElementsByTagName("html");
+var defaultElement = null;
 var routes = {};
 var domain = getDomain(location.toString());
 var path = getPath(location.toString());
@@ -69,13 +69,19 @@ function addLinkHooks() {
 addLinkHooks();
 
 // Loads the specified page
-function loadPage(pth, noState) {
+function loadPage(pth, noState, element) {
+	var elem = element;
+	if(!element) {
+		elem = defaultElement;
+	}
+	
     path = pth;
     if(!noState) window.history.pushState("{urlPath:\""+path.substr(1)+"\"}", "", path.substr(1));
     
     if(routes[pth]) {
         load("/pages/"+routes[pth], function(c) {
-            document.body.innerHTML = c;
+			if(!defaultElement) defaultElement=document.body;
+            defaultElement.innerHTML = c;
             addLinkHooks();
             if(checker==null) {
                 checker = setInterval(function() {
@@ -88,7 +94,8 @@ function loadPage(pth, noState) {
         }, function(e) console.log(e));
     } else {
         load("/pages/"+routes["404"], function(c) {
-            document.body.innerHTML = c;
+			if(!defaultElement) defaultElement=document.body;
+            defaultElement.innerHTML = c;
             addLinkHooks();
             if(checker==null) {
                 checker = setInterval(function() {
