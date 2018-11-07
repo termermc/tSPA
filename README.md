@@ -40,7 +40,7 @@ onPageLoadError = function(event) {
   // The event object here contains all the same fields as onPageLoaded
   alert("Failed to load URL "+event.url+"!\nReturned status: "+event.status");
 }
-``
+```
 
 ## How lightweight is it?
 A lot more lightweight than React.
