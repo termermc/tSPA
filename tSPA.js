@@ -57,6 +57,9 @@ function linkHook(e) {
 	if (getDomain(e.currentTarget.href) == domain) {
 		e.preventDefault();
 		var loc = e.currentTarget.href.replace("://", "");
+		if(loc.endsWith("/")) {
+			loc.substr(0, loc.length-1);
+		}
 		loc = loc.substr(loc.indexOf("/"));
 		loadPage(loc);
 	}
@@ -87,6 +90,12 @@ function loadPage(pth, noState, element) {
 		}
 		path = pth;
 		if (!noState) window.history.pushState("{urlPath:\"" + path.substr(1) + "\"}", "", path.substr(1));
+		if(pth.includes("#")) {
+			pth = pth.substr(0, pth.indexOf("#"));
+		}
+		if(pth.includes("?")) {
+			pth = pth.substr(0, pth.indexOf("?"));
+		}
 		if (routes[pth]) {
 			load("/pages/" + routes[pth], function (c) {
 				if (!defaultElement) defaultElement = document.body;
