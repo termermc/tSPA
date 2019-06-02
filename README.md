@@ -1,3 +1,6 @@
+# This repo is archived
+tSPA is rather buggy, and I have no intention to develop it further. Use at your own risk.
+
 # tSPA
 Simple, lightweight Single Page Application (SPA) library
 
